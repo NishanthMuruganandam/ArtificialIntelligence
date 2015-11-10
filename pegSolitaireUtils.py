@@ -55,8 +55,6 @@ class game:
 	def getMiddlePeg(self,oldPos,newPos):
 		""" gets the index of the position between old position and new position"""
 		middlePos = ((oldPos[0]+newPos[0])/2,(oldPos[1]+newPos[1])/2)
-		#print ("Middle Pos:")
-		#print (middlePos)
 		return middlePos
 	
 	def pegBetweenIt(self,oldPos,newPos):
@@ -133,7 +131,6 @@ class game:
 		return pegInCenter and onlyOnePeg
 
 	def distFromCentre(self,pos):
-		#pos is a tuple (x,y)
 	 	distance = abs(pos[0]-3)+abs(pos[1]-3)
 		return distance
 

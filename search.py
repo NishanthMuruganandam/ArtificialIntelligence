@@ -3,20 +3,16 @@ import config
 import copy
 
 def ItrDeepSearch(pegSolitaireObject):
-""" This function is the entry point for Iterative Deepening Search algorithm. It calls a recursive function ITRDeepSearch(arg1,arg2,depthLimit) 
-which is found below, for every value of depthLimit starting from 0 to NumberOfPegs. 
-The upperLimit for depth is chosen as NumberOfPegs on the board as the that is the maximum number of moves one can make in any configuration
-of the board."""
+        """ This function is the entry point for Iterative Deepening Search algorithm. It calls a recursive function ITRDeepSearch(arg1,arg2,depthLimit) 
+        which is found below, for every value of depthLimit starting from 0 to NumberOfPegs. 
+        The upperLimit for depth is chosen as NumberOfPegs on the board as the that is the maximum number of moves one can make in any configuration
+        of the board."""
 
 	#print ("Number of Pegs : " + str(pegSolitaireObject.numberOfPegs))	
 	pegSolitaireObject.displayState()#This is for debugging purposes. It writes the state to a file.
 		#startState = pegSolitaireObject #Do a deep copy. Assure this statement does that. 
 		# That stmt doesnt do that. 
 	for depth in range(pegSolitaireObject.numberOfPegs):
-		#print ("Iteration : " + str(depth))
-		#f = open('myOutput.txt','a')
-		#f.write("Iteration "+ str(depth) + "\n");
-		#f.close()
 		pegSolitaireObject.gameState = copy.deepcopy(pegSolitaireObject.startState)#Every iteration, we have to start from the root as per 
 		# definition of the Iterative Deepening Algorithm. So, an attribute is added to the pegSolitaireObject which acts as a restore point.
 		pegSolitaireObject.trace = []
@@ -83,16 +79,17 @@ def aStarOne(pegSolitaireObject):
 
 
 def heuristicOne(pegSolitaireObject):
-"""
-Heuristic one: For every peg in board, compute the Manhattan Distance from the centre(3,3) and order by the farthest first.
-The intuition behind: The ones that are far from centre, have the objective of moving to centre. If we try to eliminate the farthest
-one with the one closer to it, we isolate a peg and eventually it might to a state where that peg can never be reached by any move of the other pegs.
-So, the best bet is to clear off the ones in the far and move inwards towards the goal rather than going the opposite way.
-
-Admissibility: h(n) is nothing but the measure of number of moves of the relaxed version of the problem - a peg can move to a tile next to it, if empty. So, h(n) will always be lesser than the actual cost h*(n).
-
-Consistency: h(n) just finds the measure of the relaxed problem. Any c(n1) >> h(n), so the condition c(n1) + h(n1) >> h(n) which makes the heuristic a consistent one
-""" 
+        """
+        Heuristic one: For every peg in board, compute the Manhattan Distance from the centre(3,3) and order by the farthest first.
+        The intuition behind: The ones that are far from centre, have the objective of moving to centre. If we try to eliminate the farthest
+        one with the one closer to it, we isolate a peg and eventually it might to a state where that peg can never be reached by any move of the other pegs.
+        So, the best bet is to clear off the ones in the far and move inwards towards the goal rather than going the opposite way.
+        
+        Admissibility: h(n) is nothing but the measure of number of moves of the relaxed version of the problem - a peg can move to a tile next to it, if empty. So, h(n) will always be lesser than the actual cost h*(n).
+        
+        Consistency: h(n) just finds the measure of the relaxed problem. Any c(n1) >> h(n), so the condition c(n1) + h(n1) >> h(n) which makes the heuristic a consistent one
+        """ 
+        
 	dictionary={}
 	for x in range(7):
 		for y in range(7):
@@ -103,7 +100,7 @@ Consistency: h(n) just finds the measure of the relaxed problem. Any c(n1) >> h(
 	return values
 
 def aStarTwo(pegSolitaireObject):
-""" Implementation idea is very much similar to aStarOne()"""
+	""" Implementation idea is very much similar to aStarOne()"""
 
 	if pegSolitaireObject.isGoalState():
 		#print("goal state found")
@@ -129,16 +126,16 @@ def aStarTwo(pegSolitaireObject):
 	return False
 
 def heuristicTwo(pegSolitaireObject):
-"""
-Heuristic Two: For every peg, the number of possible moves it can take is calculated(Max is 4 for any peg). The one with the higher value is explored first compared to others. If there is a tie, the one farther is chosen.
-
-Intuition behind the heuristic: It is more of a probabilistic determination. Assume that two pegs have 3 and 2 possible moves each. Without considering any other extra parameters, the probability of reaching the goal using the one with '3' possible moves is more compared to the other. So, this heuristic takes a calculated risk by exploring that node.
-
-Admissibility: h(n) takes into only the account the number of moves available. But, the original cost function takes into account the actual move cost which 1 in each step. So, the original cost function from n will be greater than h(n) which can never cross 4. For every increase in h(n), the h*(n) will increase since the increase in h(n) indirectly means that there are more pegs to be removed thus increasing the actual cost. 
-
-Consistency: The actual cost of moving from one state to the immediate next one is 1. The maximum value	of h(n) = h(n1) = 4. So, h(N) is always less than sum of both h(n1) and c(n1).
-
-"""
+	"""
+	Heuristic Two: For every peg, the number of possible moves it can take is calculated(Max is 4 for any peg). The one with the higher value is explored first compared to others. If there is a tie, the one farther is chosen.
+	
+	Intuition behind the heuristic: It is more of a probabilistic determination. Assume that two pegs have 3 and 2 possible moves each. Without considering any other extra parameters, the probability of reaching the goal using the one with '3' possible moves is more compared to the other. So, this heuristic takes a calculated risk by exploring that node.
+	
+	Admissibility: h(n) takes into only the account the number of moves available. But, the original cost function takes into account the actual move cost which 1 in each step. So, the original cost function from n will be greater than h(n) which can never cross 4. For every increase in h(n), the h*(n) will increase since the increase in h(n) indirectly means that there are more pegs to be removed thus increasing the actual cost. 
+	
+	Consistency: The actual cost of moving from one state to the immediate next one is 1. The maximum value	of h(n) = h(n1) = 4. So, h(N) is always less than sum of both h(n1) and c(n1).
+	
+	"""
 	dictionary={}
 	for x in range(7):
 		for y in range(7):
